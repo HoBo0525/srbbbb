@@ -100,7 +100,6 @@ public class WxController {
         accessTokenParam.put("secret", CoreProperties.APP_SECRET);
         accessTokenParam.put("code", code);
         accessTokenParam.put("grant_type", "authorization_code");
-        //获取动作
         HttpClientUtils client = new HttpClientUtils(accessTokenUrl, accessTokenParam);
 
         //发送请求

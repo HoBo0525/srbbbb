@@ -68,6 +68,6 @@ public class FileController {
             @RequestParam String model){
        String avatar = fileService.upload(url, model);
 
-       return R.ok().message("上传文件头像成功").data("url", avatar);
+       return R.ok().message("上传文件头像成功").data("avatar", avatar);
     }
 }

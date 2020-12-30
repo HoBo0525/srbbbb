@@ -2,12 +2,10 @@ package com.atguigu.srb.core.service.impl;
 
 import com.atguigu.common.exception.Assert;
 import com.atguigu.common.exception.BusinessException;
-import com.atguigu.common.result.R;
 import com.atguigu.common.result.ResponseEnum;
 import com.atguigu.common.util.HttpClientUtils;
 import com.atguigu.common.util.MD5;
 import com.atguigu.srb.base.util.JwtUtils;
-import com.atguigu.srb.core.cilent.OssFileClient;
 import com.atguigu.srb.core.mapper.UserAccountMapper;
 import com.atguigu.srb.core.mapper.UserInfoMapper;
 import com.atguigu.srb.core.mapper.UserLoginRecordMapper;
@@ -28,7 +26,6 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.google.gson.Gson;
 
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -51,8 +48,6 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
     private UserAccountMapper userAccountMapper;
     @Resource
     private UserLoginRecordMapper userLoginRecordMapper;
-    @Resource
-    OssFileClient ossFileClient;
 
     @Transactional(rollbackFor = {Exception.class})
     @Override
@@ -202,14 +197,10 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
         String nickname = (String) resultUserInfoMap.get("nickname");
         String headimgurl = (String) resultUserInfoMap.get("headimgurl");
 
-
-        R r = ossFileClient.uploadFromUrl(headimgurl, "srb");
-        String url = (String) r.getData().get("url");
-        System.err.println(url);
         //注册新用户
         UserInfo userInfo = new UserInfo();
         userInfo.setOpenid(openid);
-        userInfo.setHeadImg(url);
+        userInfo.setHeadImg(headimgurl);
         userInfo.setNickName(nickname);
         userInfo.setName(nickname);
         userInfo.setUserType(UserInfo.STATUS_NORMAL);
@@ -228,6 +219,7 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
         QueryWrapper<UserInfo> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("openid", openid);
         UserInfo userInfo = baseMapper.selectOne(queryWrapper);
+        System.err.println("userInfo = " + userInfo);
 
         UserInfoVO userInfoVO = new UserInfoVO();
 //        userInfoVO.setName(userInfo.getName());
@@ -235,7 +227,9 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
 //        userInfoVO.setUserType(userInfo.getUserType());
 //        userInfoVO.setMobile(userInfo.getMobile());
 //        userInfoVO.setHeadImg(userInfo.getHeadImg());
-        BeanUtils.copyProperties(userInfo,userInfoVO);
+        BeanUtils.copyProperties(userInfoVO, userInfo);
+
+        System.err.println("userInfoVO = " + userInfoVO);
 
         return userInfoVO;
     }
