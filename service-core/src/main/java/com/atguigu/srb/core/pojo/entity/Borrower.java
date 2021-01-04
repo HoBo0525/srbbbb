@@ -37,7 +37,7 @@ public class Borrower implements Serializable {
     private String name;
 
     @ApiModelProperty(value = "身份证号")
-    private Long idCard;
+    private String idCard;
 
     @ApiModelProperty(value = "手机")
     private String mobile;
@@ -53,7 +53,7 @@ public class Borrower implements Serializable {
 
     @ApiModelProperty(value = "是否结婚（1：是 0：否）")
     @TableField("is_marry")
-    private Integer marry;
+    private Boolean marry;
 
     @ApiModelProperty(value = "行业")
     private Integer industry;

@@ -89,6 +89,7 @@ public class DictServiceImpl extends ServiceImpl<DictMapper, Dict> implements Di
         return dictList;
     }
 
+
     /**
      * 判断一个节点是否有子节点
      * @param id
@@ -103,5 +104,13 @@ public class DictServiceImpl extends ServiceImpl<DictMapper, Dict> implements Di
             return true;
         }
         return false;
+    }
+
+    @Override
+    public List<Dict> findBuDictCode(String dictCode) {
+        QueryWrapper<Dict> dictQueryWrapper = new QueryWrapper<>();
+        dictQueryWrapper.eq("dict_code", dictCode);
+        Dict dict = baseMapper.selectOne(dictQueryWrapper);
+        return this.listByParentId(dict.getId());
     }
 }
