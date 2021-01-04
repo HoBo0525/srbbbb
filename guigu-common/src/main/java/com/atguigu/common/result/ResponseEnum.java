@@ -32,6 +32,8 @@ public enum ResponseEnum {
     LOGIN_DISABLED_ERROR(-210, "用户已被禁用"),
 
 
+    USER_BIND_IDCARD_EXIST_ERROR(-301, "身份证号码已绑定"),
+
     ALIYUN_SMS_LIMIT_CONTROL_ERROR(-502, "短信发送过于频繁"),//业务限流
     ALIYUN_SMS_ERROR(-503, "短信发送失败"),//其他失败
 

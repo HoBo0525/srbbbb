@@ -22,6 +22,18 @@ public abstract class Assert {
     }
 
     /**
+     *
+     * @param obj
+     * @param responseEnum
+     */
+    public static void isNull(Object obj, ResponseEnum responseEnum) {
+        if (obj != null) {
+            log.info("obj is null...............");
+            throw new BusinessException(responseEnum);
+        }
+    }
+
+    /**
      * 断言表达式为真
      * 如果不为真，则抛出异常
      *
