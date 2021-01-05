@@ -15,4 +15,14 @@ public enum BorrowerStatusEnum {
 
     private Integer status;
     private String msg;
+
+    public static String getMsgByStatus(int status) {
+        BorrowerStatusEnum arrObj[] = BorrowerStatusEnum.values();
+        for (BorrowerStatusEnum obj : arrObj) {
+            if (status == obj.getStatus().intValue()) {
+                return obj.getMsg();
+            }
+        }
+        return "";
+    }
 }

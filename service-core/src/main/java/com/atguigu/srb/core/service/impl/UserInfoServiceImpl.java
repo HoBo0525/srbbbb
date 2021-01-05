@@ -232,7 +232,7 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
 //        userInfoVO.setUserType(userInfo.getUserType());
 //        userInfoVO.setMobile(userInfo.getMobile());
 //        userInfoVO.setHeadImg(userInfo.getHeadImg());
-        BeanUtils.copyProperties(userInfoVO, userInfo);
+        BeanUtils.copyProperties(userInfo, userInfoVO);
 
         System.err.println("userInfoVO = " + userInfoVO);
 
