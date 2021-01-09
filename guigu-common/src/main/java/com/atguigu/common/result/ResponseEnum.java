@@ -33,6 +33,9 @@ public enum ResponseEnum {
 
 
     USER_BIND_IDCARD_EXIST_ERROR(-301, "身份证号码已绑定"),
+    USER_NO_BIND_ERROR(-302, "支付账户不可用"),
+    USER_NO_AMOUNT_ERROR(-303, "借款额度不可用"),
+    USER_AMOUNT_LESS_ERROR(-304, "借款额度不足"),
 
     ALIYUN_SMS_LIMIT_CONTROL_ERROR(-502, "短信发送过于频繁"),//业务限流
     ALIYUN_SMS_ERROR(-503, "短信发送失败"),//其他失败
