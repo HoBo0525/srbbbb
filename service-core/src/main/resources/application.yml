@@ -55,6 +55,7 @@ wx:
     appSecret: a7482517235173ddb4083788de60b90e
     # 微信开放平台 重定向url（guli.shop需要在微信开放平台配置）
     redirectUri: http://guli.shop/api/wx/callback8110
+
 logging:
   level:
     com.atguigu.srb.core.client.OssFileClient: debug #以什么级别监控哪个接口

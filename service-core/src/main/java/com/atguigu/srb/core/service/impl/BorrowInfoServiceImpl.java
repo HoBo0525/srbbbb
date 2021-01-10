@@ -12,6 +12,7 @@ import com.atguigu.srb.core.pojo.vo.BorrowerDetailVO;
 import com.atguigu.srb.core.service.BorrowInfoService;
 import com.atguigu.srb.core.service.BorrowerService;
 import com.atguigu.srb.core.service.DictService;
+import com.atguigu.srb.core.service.LendService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
@@ -43,7 +44,9 @@ public class BorrowInfoServiceImpl extends ServiceImpl<BorrowInfoMapper, BorrowI
     @Resource
     BorrowerMapper borrowerMapper;
     @Resource
-    private BorrowerService borrowerService;
+    BorrowerService borrowerService;
+    @Resource
+    LendService lendService;
 
 
     @Override
@@ -170,7 +173,8 @@ public class BorrowInfoServiceImpl extends ServiceImpl<BorrowInfoMapper, BorrowI
         //创建标的
         if (borrowInfoApprovalVO.getStatus().intValue() == BorrowInfoStatusEnum.CHECK_OK.getStatus().intValue()){
             //创建标的
-            //TODO
+            borrowInfo = this.getById(borrowInfoId);
+            lendService.createLend(borrowInfoApprovalVO, borrowInfo);
         }
     }
 }
