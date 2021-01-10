@@ -1,6 +1,8 @@
 package com.atguigu.srb.core.mapper;
 
+import com.atguigu.srb.core.pojo.entity.BorrowInfo;
 import com.atguigu.srb.core.pojo.entity.Borrower;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
