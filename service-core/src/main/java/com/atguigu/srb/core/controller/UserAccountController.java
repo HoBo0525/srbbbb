@@ -1,9 +1,21 @@
 package com.atguigu.srb.core.controller;
 
 
-import org.springframework.web.bind.annotation.RequestMapping;
+import com.alibaba.fastjson.JSON;
+import com.atguigu.common.result.R;
+import com.atguigu.srb.base.util.JwtUtils;
+import com.atguigu.srb.core.hfb.RequestHelper;
+import com.atguigu.srb.core.service.UserAccountService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
-import org.springframework.web.bind.annotation.RestController;
+import javax.servlet.http.HttpServletRequest;
+import java.math.BigDecimal;
+import java.util.Map;
 
 /**
  * <p>
@@ -13,9 +25,49 @@ import org.springframework.web.bind.annotation.RestController;
  * @author Helen
  * @since 2020-12-12
  */
+@Api(tags = "会员账户")
 @RestController
-@RequestMapping("/userAccount")
+@RequestMapping("/api/core/userAccount")
+@Slf4j
+@CrossOrigin
 public class UserAccountController {
 
+    @Autowired
+    UserAccountService userAccountService;
+
+    @ApiOperation("充值金额")
+    @PostMapping("/auth/commitCharge/{chargeAmt}")
+    public R commitCharge(
+            @ApiParam(value = "充值金额", required = true)
+            @PathVariable BigDecimal chargeAmt, HttpServletRequest request){
+        String token = request.getHeader("token");
+        Long userId = JwtUtils.getUserId(token);
+
+        String formStr = userAccountService.commitCharge(chargeAmt, userId);
+        return R.ok().data("formStr", formStr);
+    }
+
+
+    @ApiOperation("用户充值异步回调")
+    @PostMapping("/notify")
+    public String notify(HttpServletRequest request){
+        Map<String, Object> paramMap = RequestHelper.switchMap(request.getParameterMap());
+        log.info("用户充值异步回调：" + JSON.toJSONString(paramMap));
+
+        //校验签名
+        if (RequestHelper.isSignEquals(paramMap)){
+            //充值成功
+            if ("0001".equals(paramMap.get("resultCode"))){
+                userAccountService.notify(paramMap);
+            }else {
+                log.info("用户充值异步回调充值失败：" + JSON.toJSONString(paramMap));
+                return "fail";
+            }
+        }else {
+            log.info("用户充值异步回调签名错误：" + JSON.toJSONString(paramMap));
+            return "fail";
+        }
+        return "success";
+    }
 }
 
