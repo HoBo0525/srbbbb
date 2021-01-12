@@ -19,4 +19,6 @@ public interface UserAccountService extends IService<UserAccount> {
     String commitCharge(BigDecimal chargeAmt, Long userId);
 
     void notify(Map<String, Object> paramMap);
+
+    BigDecimal getAccount(Long userId);
 }

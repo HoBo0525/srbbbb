@@ -6,6 +6,7 @@ import com.atguigu.common.result.R;
 import com.atguigu.srb.base.util.JwtUtils;
 import com.atguigu.srb.core.hfb.RequestHelper;
 import com.atguigu.srb.core.service.UserAccountService;
+import io.jsonwebtoken.Jwt;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -68,6 +69,16 @@ public class UserAccountController {
             return "fail";
         }
         return "success";
+    }
+
+
+    @ApiOperation("查询账户余额")
+    @GetMapping("/auth/getAccount")
+    public R getAccount(HttpServletRequest request){
+        String token = request.getHeader("token");
+        Long userId = JwtUtils.getUserId(token);
+        BigDecimal account = userAccountService.getAccount(userId);
+        return R.ok().data("account", account);
     }
 }
 

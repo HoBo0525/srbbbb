@@ -14,7 +14,7 @@ import com.atguigu.srb.core.pojo.entity.UserInfo;
 import com.atguigu.srb.core.service.TransFlowService;
 import com.atguigu.srb.core.service.UserAccountService;
 import com.atguigu.srb.core.pojo.entity.UserAccount;
-import com.atguigu.srb.core.util.LendNoUtils;
+import com.atguigu.srb.core.util.ChargeNoUtils;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
@@ -52,7 +52,7 @@ public class UserAccountServiceImpl extends ServiceImpl<UserAccountMapper, UserA
 
         HashMap<String, Object> paramMap = new HashMap<>();
         paramMap.put("agentId", HfbConst.AGENT_ID);
-        paramMap.put("agentBillNo", LendNoUtils.getNo());
+        paramMap.put("agentBillNo", ChargeNoUtils.getNo());
         paramMap.put("bindCode", bindCode);
         paramMap.put("chargeAmt", chargeAmt);
         paramMap.put("feeAmt", new BigDecimal(0));
@@ -111,5 +111,15 @@ public class UserAccountServiceImpl extends ServiceImpl<UserAccountMapper, UserA
         );
         transFlowService.saveTransFlow(transFlowBO);
 
+    }
+
+    @Override
+    public BigDecimal getAccount(Long userId) {
+        QueryWrapper<UserAccount> userAccountQueryWrapper = new QueryWrapper<>();
+        userAccountQueryWrapper.eq("user_id", userId);
+        UserAccount userAccount = baseMapper.selectOne(userAccountQueryWrapper);
+
+        BigDecimal amount = userAccount.getAmount();
+        return amount;
     }
 }

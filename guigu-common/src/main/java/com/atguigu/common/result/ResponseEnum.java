@@ -36,6 +36,10 @@ public enum ResponseEnum {
     USER_NO_BIND_ERROR(-302, "支付账户不可用"),
     USER_NO_AMOUNT_ERROR(-303, "借款额度不可用"),
     USER_AMOUNT_LESS_ERROR(-304, "借款额度不足"),
+    LEND_INVEST_ERROR(305, "当前状态无法投标"),
+    LEND_FULL_SCALE_ERROR(306, "已满标，无法投标"),
+    NOT_SUFFICIENT_FUNDS_ERROR(307, "余额不足，请充值"),
+
 
     ALIYUN_SMS_LIMIT_CONTROL_ERROR(-502, "短信发送过于频繁"),//业务限流
     ALIYUN_SMS_ERROR(-503, "短信发送失败"),//其他失败

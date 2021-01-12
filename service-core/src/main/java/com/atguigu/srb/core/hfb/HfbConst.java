@@ -37,7 +37,7 @@ public class HfbConst {
     //充值汇付宝平台url地址
     public static final String INVEST_URL = "http://localhost:9999/userInvest/AgreeUserVoteProject";
     //充值异步回调
-    public static final String INVEST_NOTIFY_URL = "http://localhost/api/core/lend/notify";
+    public static final String INVEST_NOTIFY_URL = "http://localhost/api/core/lendItem/notify";
     //充值同步回调
     public static final String INVEST_RETURN_URL = "http://localhost:3000/user";
 

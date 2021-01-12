@@ -2,6 +2,7 @@ package com.atguigu.srb.core.service.impl;
 
 import com.alibaba.excel.annotation.format.DateTimeFormat;
 import com.atguigu.srb.core.enums.LendStatusEnum;
+import com.atguigu.srb.core.enums.ReturnMethodEnum;
 import com.atguigu.srb.core.mapper.BorrowerMapper;
 import com.atguigu.srb.core.mapper.LendMapper;
 import com.atguigu.srb.core.pojo.entity.BorrowInfo;
@@ -12,7 +13,7 @@ import com.atguigu.srb.core.service.BorrowerService;
 import com.atguigu.srb.core.service.DictService;
 import com.atguigu.srb.core.service.LendService;
 import com.atguigu.srb.core.pojo.entity.Lend;
-import com.atguigu.srb.core.util.LendNoUtils;
+import com.atguigu.srb.core.util.*;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
@@ -49,7 +50,7 @@ public class LendServiceImpl extends ServiceImpl<LendMapper, Lend> implements Le
         Lend lend = new Lend();
         lend.setUserId(borrowInfo.getUserId());
         lend.setBorrowInfoId(borrowInfo.getId());
-        lend.setLendNo(LendNoUtils.getNo()); //生成编号
+        lend.setLendNo(LendNoUtils.getLendNo()); //生成编号
         lend.setTitle(borrowInfoApprovalVO.getTitle());
         lend.setAmount(borrowInfo.getAmount());
         lend.setPeriod(borrowInfo.getPeriod());
@@ -133,5 +134,23 @@ public class LendServiceImpl extends ServiceImpl<LendMapper, Lend> implements Le
         result.put("borrower", borrowerDetailVO);
 
         return result;
+    }
+
+    //投资金额   年化收益   期数    还款方式
+    @Override
+    public BigDecimal getInterestCount(BigDecimal invest, BigDecimal yearRate, Integer totalmonth, Integer returnMethod) {
+
+        BigDecimal interestCount;
+        //计算利息
+        if (returnMethod.intValue() == ReturnMethodEnum.ONE.getMethod()){
+            interestCount = Amount1Helper.getInterestCount(invest, yearRate, totalmonth);
+        } else if (returnMethod.intValue() == ReturnMethodEnum.TWO.getMethod()) {
+            interestCount = Amount2Helper.getInterestCount(invest, yearRate, totalmonth);
+        } else if(returnMethod.intValue() == ReturnMethodEnum.THREE.getMethod()) {
+            interestCount = Amount3Helper.getInterestCount(invest, yearRate, totalmonth);
+        } else {
+            interestCount = Amount4Helper.getInterestCount(invest, yearRate, totalmonth);
+        }
+        return interestCount;
     }
 }
